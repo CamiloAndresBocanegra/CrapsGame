@@ -51,14 +51,14 @@ public class GUI extends JFrame {
             String buttonName = ((MyButton) e.getSource()).getButtonName();
 
             switch(buttonName){
-                case "ThrowDicesButton" ->
-                    {
-                        //TODO: throw dice case
-                    }
-                default ->
-                    {
-                        //TODO: print out error that the bkutton doesn't have a name
-                    }
+                case "ThrowDicesButton":
+                {
+                    //TODO: throw dice
+                }break;
+                default :
+                {
+                    //TODO: print out ERROR button doesn't have a name
+                }break;
             }
         }
     }

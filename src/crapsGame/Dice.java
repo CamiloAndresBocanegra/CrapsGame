@@ -3,11 +3,17 @@ package crapsGame;
 import java.util.Random;
 
 public class Dice {
-    int currentFace;
+    private int currentFace;
+    private Random RNG;
+
+    public Dice()
+    {
+        RNG = new Random();
+
+    }
 
     public int throwDice()
     {
-        Random RNG = new Random();
         currentFace = RNG.nextInt(6);
         return currentFace;
     }
