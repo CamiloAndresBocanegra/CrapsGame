@@ -157,12 +157,12 @@ public class GUI extends JFrame {
     {
         dicesPanel.removeAll();
         ImageIcon dice1Image;
-        dice1Image = new ImageIcon(getClass().getResource("../resources/" + Dice1Number + ".png"));
+        dice1Image = new ImageIcon(getClass().getResource("/resources/" + Dice1Number + ".png"));
         JLabel dice1ImageLabel = new JLabel();
         dice1ImageLabel.setIcon(dice1Image);
 
         ImageIcon dice2Image;
-        dice2Image = new ImageIcon(getClass().getResource("../resources/" + Dice2Number + ".png"));
+        dice2Image = new ImageIcon(getClass().getResource("/resources/" + Dice2Number + ".png"));
         JLabel dice2ImageLabel = new JLabel();
         dice2ImageLabel.setIcon(dice2Image);
 
