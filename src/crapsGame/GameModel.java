@@ -117,7 +117,7 @@ public class GameModel {
             }break;
 
             case LOSE:{
-                StringState = "Sacaste 7 antes que"+targetPoint+", Has perdido!!";
+                StringState = "Sacaste 7 antes que "+targetPoint+", Has perdido!!";
             }break;
 
             default:{

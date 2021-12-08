@@ -13,11 +13,27 @@ import java.awt.event.ActionListener;
  */
 public class GUI extends JFrame {
 
-    private Header ProjectHeader;
     private JPanel dicesPanel;
     private GameModel gameManager;
     private JTextArea gameResultPanel;
     private JTextArea MessagesPanel;
+
+    private final String TUTORIAL_TEXT = "El juego comienza con un lanzamiento denominado “tiro de " +
+            "salida”. Este tiro corresponde al primer lanzamiento de los\n" +
+            "dados que realiza el jugador dando inicio a la ronda de juego.\n" +
+            "De acuerdo con el resultado del tiro de salida se procede de la " +
+            "siguiente manera:\n" +
+            "- Si el lanzamiento da como resultado 2, 3 o 12, esto se" +
+            "conoce como “Craps” y significa que el jugador pierde.\n" +
+            "-  Si el lanzamiento da como resultado un 7 o un 11, eso es" +
+            "conocido como un “Natural” y el jugador gana.\n" +
+            "-  Si el lanzamiento da como resultado 4,5,6, 8, 9 o 10, eso se" +
+            "conoce como punto y su valor será el valor obtenido en el\n" +
+            "lanzamiento. En este caso, el jugador podrá seguir" +
+            "lanzando los dados con el fin de obtener nuevamente el\n" +
+            "valor establecido como punto. Si se logra obtener el valor" +
+            "del punto antes de sacar un 7, entonces el jugador gana la\n" +
+            "ronda, en caso contrario el jugador pierde la ronda.";
     /**
      * Constructor of GUI class
      */
@@ -47,29 +63,39 @@ public class GUI extends JFrame {
         windowPanel.setLayout(new GridBagLayout());
         this.add(windowPanel);
 
-        ProjectHeader = new Header("Game Board", Color.BLACK);
+        Header projectHeader = new Header("Game Board", Color.BLACK);
         {
             GridBagConstraints c = new GridBagConstraints();
             c.fill = GridBagConstraints.HORIZONTAL;
-            windowPanel.add(ProjectHeader, c);
+            windowPanel.add(projectHeader, c);
         }
 
-        JPanel OptionsPanel = new JPanel();
+        JPanel helpPanel = new JPanel();
+        JButton helpButton = new JButton();
+        helpButton.setText("?");
+        helpButton.addActionListener(new helpButtonListener());
+        JButton exitButton = new JButton();
+        exitButton.setText("Exit");
+        exitButton.addActionListener(new exitButtonListener());
+        helpPanel.add(helpButton, BorderLayout.WEST);
+        helpPanel.add(exitButton, BorderLayout.EAST);
         {
             GridBagConstraints c = new GridBagConstraints();
             c.gridy = 1;
             c.fill = GridBagConstraints.HORIZONTAL;
-            windowPanel.add(OptionsPanel, c);
+            windowPanel.add(helpPanel, c);
         }
 
-        JPanel GameStatePanel = new JPanel();
+        JPanel gameStatePanel = new JPanel();
+        gameStatePanel.setPreferredSize(new Dimension(625,172));
         {
             GridBagConstraints c = new GridBagConstraints();
             c.gridy = 2;
-            windowPanel.add(GameStatePanel, c);
+            c.fill = GridBagConstraints.BOTH;
+            windowPanel.add(gameStatePanel, c);
         }
         dicesPanel = new JPanel();
-        dicesPanel.setPreferredSize(new Dimension(305,162));
+        dicesPanel.setPreferredSize(new Dimension(302,162));
         dicesPanel.setBorder(BorderFactory.createTitledBorder(
                 null,
                 "Tus dados",
@@ -78,12 +104,13 @@ public class GUI extends JFrame {
                 new Font("Calibri", Font.PLAIN, 20),
                 Color.BLACK
         ));
-        GameStatePanel.add(dicesPanel, BorderLayout.CENTER);
+        gameStatePanel.add(dicesPanel, BorderLayout.CENTER);
         UpdateDicePanel(0, 0);
 
 
-        gameResultPanel = new JTextArea(1, 2);
-        gameResultPanel.setPreferredSize(new Dimension(305,162));
+        gameResultPanel = new JTextArea(10, 20);
+        gameResultPanel.setFocusable(false);
+        gameResultPanel.setPreferredSize(new Dimension(250,162));
         gameResultPanel.setBorder(BorderFactory.createTitledBorder(
                 null,
                 "Resultados",
@@ -93,7 +120,7 @@ public class GUI extends JFrame {
                 Color.BLACK
         ));
         updateResultPanel(0, 0, 0);
-        GameStatePanel.add(gameResultPanel, BorderLayout.EAST);
+        gameStatePanel.add(gameResultPanel, BorderLayout.EAST);
 
 
         JButton throwButton = new JButton();
@@ -106,7 +133,8 @@ public class GUI extends JFrame {
             windowPanel.add(throwButton, c);
         }
 
-        MessagesPanel = new JTextArea(10, 2);
+        MessagesPanel = new JTextArea(1, 2);
+        MessagesPanel.setFocusable(false);
         MessagesPanel.setBorder(BorderFactory.createTitledBorder(
                 null,
                 "Mensajes",
@@ -115,7 +143,8 @@ public class GUI extends JFrame {
                 new Font("Calibri", Font.PLAIN, 20),
                 Color.BLACK
         ));
-        MessagesPanel.setText(""); //TODO: TUTORIAL
+        MessagesPanel.setText(TUTORIAL_TEXT);
+        MessagesPanel.setFont(new Font("Calibri", Font.PLAIN, 15));
         {
             GridBagConstraints c = new GridBagConstraints();
             c.gridy = 4;
@@ -150,11 +179,11 @@ public class GUI extends JFrame {
         String results = "";
         if (firstThrow > 0)
         {
-            results += "Tiro de salida: "+ firstThrow+"\n";
+            results += "Tiro de salida: "+ firstThrow+" \n";
         }
         if (point > 0)
         {
-            results += "Punto : " + point;
+            results += "Punto: " + point+" \n";
         }
         if (lastThrow > 0)
         {
@@ -166,7 +195,6 @@ public class GUI extends JFrame {
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
     private class ThrowDiceListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             gameManager.throwDices();
@@ -177,11 +205,28 @@ public class GUI extends JFrame {
             updateResultPanel(gameResults[0], gameResults[1], gameResults[2]);
 
             MessagesPanel.setText(gameManager.getStateString());
+            MessagesPanel.setFont(new Font("Calibri", Font.PLAIN, 20));
 
         }
     }
 
+    private class helpButtonListener implements  ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            MessagesPanel.setText(TUTORIAL_TEXT);
+            MessagesPanel.setFont(new Font("Calibri", Font.PLAIN, 15));
+        }
+    }
 
+    private class exitButtonListener implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Runtime.getRuntime().exit(0);
+        }
+    }
 
     /**
      * Main process of the Java program
