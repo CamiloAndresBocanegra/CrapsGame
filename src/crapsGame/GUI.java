@@ -17,6 +17,7 @@ public class GUI extends JFrame {
     private JPanel dicesPanel;
     private GameModel gameManager;
     private JTextArea gameResultPanel;
+    private JTextArea MessagesPanel;
     /**
      * Constructor of GUI class
      */
@@ -85,7 +86,7 @@ public class GUI extends JFrame {
         gameResultPanel.setPreferredSize(new Dimension(305,162));
         gameResultPanel.setBorder(BorderFactory.createTitledBorder(
                 null,
-                "resultados",
+                "Resultados",
                 TitledBorder.DEFAULT_JUSTIFICATION,
                 TitledBorder.DEFAULT_POSITION,
                 new Font("Calibri", Font.PLAIN, 20),
@@ -105,8 +106,16 @@ public class GUI extends JFrame {
             windowPanel.add(throwButton, c);
         }
 
-        JTextArea MessagesPanel = new JTextArea(10, 2);
-
+        MessagesPanel = new JTextArea(10, 2);
+        MessagesPanel.setBorder(BorderFactory.createTitledBorder(
+                null,
+                "Mensajes",
+                TitledBorder.DEFAULT_JUSTIFICATION,
+                TitledBorder.DEFAULT_POSITION,
+                new Font("Calibri", Font.PLAIN, 20),
+                Color.BLACK
+        ));
+        MessagesPanel.setText(""); //TODO: TUTORIAL
         {
             GridBagConstraints c = new GridBagConstraints();
             c.gridy = 4;
@@ -138,20 +147,20 @@ public class GUI extends JFrame {
 
     public void updateResultPanel(int firstThrow, int point, int lastThrow)
     {
-        String message = "";
+        String results = "";
         if (firstThrow > 0)
         {
-            message += "Tiro de salida: "+ firstThrow+"\n";
+            results += "Tiro de salida: "+ firstThrow+"\n";
         }
         if (point > 0)
         {
-            message += "Punto : " + point;
+            results += "Punto : " + point;
         }
         if (lastThrow > 0)
         {
-            message += "Ultimo Tiro: " + lastThrow;
+            results += "Ultimo Tiro: " + lastThrow;
         }
-        gameResultPanel.setText(message);
+        gameResultPanel.setText(results);
     }
     /**
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
@@ -167,6 +176,7 @@ public class GUI extends JFrame {
             int[] gameResults = gameManager.getGameResults();
             updateResultPanel(gameResults[0], gameResults[1], gameResults[2]);
 
+            MessagesPanel.setText(gameManager.getStateString());
 
         }
     }
