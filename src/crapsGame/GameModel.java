@@ -5,7 +5,8 @@ import java.lang.reflect.Array;
 public class GameModel {
     private Dice dice1, dice2;
 
-    private int throwValue = 0,
+    private int lastThrowValue = 0,
+            firstThrowValue = 0,
             targetPoint = 0,
             gameState = 0;
 
@@ -36,26 +37,30 @@ public class GameModel {
 
     public void throwDices()
     {
-        throwValue = dice1.throwDice() + dice2.throwDice();
-        updateGameState();
+        updateGameState(dice1.throwDice() + dice2.throwDice());
     }
 
-    public void updateGameState()
+    public void updateGameState(int value)
     {
         if (isPointSet)
         {
-            if (throwValue == 7)
+            lastThrowValue = value;
+
+            if (lastThrowValue == 7)
             {
                 gameState = LOSE;
                 isPointSet = false;
             }
-            else if(throwValue == targetPoint)
+            else if(lastThrowValue == targetPoint)
             {
                 gameState = WIN;
                 isPointSet = false;
             }
         }else{
-            switch (throwValue)
+            firstThrowValue = value;
+            lastThrowValue = 0;
+            targetPoint = 0;
+            switch (value)
             {
                 case 7:
                 case 11:
@@ -73,14 +78,24 @@ public class GameModel {
                 default:
                 {
                     gameState = POINT_SET;
-                    targetPoint = throwValue;
+                    targetPoint = value;
                     isPointSet = true;
                 }
             }
         }
     }
+    public int[] getGameResults()
+    {
+        int[] gameResults = new int[3];
+        gameResults[0] = firstThrowValue;
+        gameResults[1] = targetPoint;
+        gameResults[2] = lastThrowValue;
 
-    public String stateToString()
+        return gameResults;
+
+    }
+
+    public String getStateString()
     {
         switch (gameState)
         {
@@ -113,4 +128,8 @@ public class GameModel {
     }
 
 
+    public int getTargetPoint()
+    {
+        return targetPoint;
+    }
 }

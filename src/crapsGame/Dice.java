@@ -14,7 +14,7 @@ public class Dice {
 
     public int throwDice()
     {
-        currentFace = RNG.nextInt(6);
+        currentFace = RNG.nextInt(6) + 1;
         return currentFace;
     }
 
