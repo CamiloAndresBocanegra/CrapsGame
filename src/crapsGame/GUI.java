@@ -23,15 +23,15 @@ public class GUI extends JFrame {
             "dados que realiza el jugador dando inicio a la ronda de juego.\n" +
             "De acuerdo con el resultado del tiro de salida se procede de la " +
             "siguiente manera:\n" +
-            "- Si el lanzamiento da como resultado 2, 3 o 12, esto se" +
+            "- Si el lanzamiento da como resultado 2, 3 o 12, esto se " +
             "conoce como “Craps” y significa que el jugador pierde.\n" +
-            "-  Si el lanzamiento da como resultado un 7 o un 11, eso es" +
+            "-  Si el lanzamiento da como resultado un 7 o un 11, eso es " +
             "conocido como un “Natural” y el jugador gana.\n" +
-            "-  Si el lanzamiento da como resultado 4,5,6, 8, 9 o 10, eso se" +
+            "-  Si el lanzamiento da como resultado 4, 5, 6, 8, 9 o 10, eso se " +
             "conoce como punto y su valor será el valor obtenido en el\n" +
-            "lanzamiento. En este caso, el jugador podrá seguir" +
+            "lanzamiento. En este caso, el jugador podrá seguir " +
             "lanzando los dados con el fin de obtener nuevamente el\n" +
-            "valor establecido como punto. Si se logra obtener el valor" +
+            "valor establecido como punto. Si se logra obtener el valor " +
             "del punto antes de sacar un 7, entonces el jugador gana la\n" +
             "ronda, en caso contrario el jugador pierde la ronda.";
     /**
